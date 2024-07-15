@@ -10,15 +10,29 @@ export const useBlogStore = defineStore('blogStore', () => {
         formData.author = formData.author || "Anonym";
 
         if (!validateBlogFormData(formData)) {
-            toast.error("Titel oder Inhalt leer!", { autoClose: 3000 })
+            toast.error("Titel oder Inhalt leer!", { autoClose: 3000 });
             return;
         }
 
-        blogs.push({...formData})
+        blogs.push({...formData});
+        saveBlog();
+
+        toast.success("Blog erstellt", { autoClose: 3000 });
+    }
+
+    const loadAllBlogs = () : void => {
+        const json = localStorage.getItem("blogs")
+        if (!json) return;
+
+        for (let blog of JSON.parse(json)) {
+            blogs.push(blog);
+        }
 
         console.log(blogs)
+    }
 
-        toast.success("Blog erstellt", { autoClose: 3000 })
+    const saveBlog = () : void => {
+        localStorage.setItem('blogs', JSON.stringify(blogs));
     }
 
     const validateBlogFormData = (formData : IBlog) : boolean => {
@@ -26,6 +40,7 @@ export const useBlogStore = defineStore('blogStore', () => {
     }
 
     return {
-        createBlog
+        createBlog,
+        loadAllBlogs
     };
 });

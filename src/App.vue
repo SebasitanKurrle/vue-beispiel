@@ -1,8 +1,13 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
+import { RouterView } from 'vue-router';
+import { useBlogStore } from "./stores/blogStore";
 
 // Komponenten
-import Navbar from "./components/Navbar.vue"
+import Navbar from "./components/Navbar.vue";
+
+const blogStore = useBlogStore();
+
+blogStore.loadAllBlogs();
 
 </script>
 
