@@ -2,11 +2,13 @@ import type IBlog from "@/Interfaces/IBlog";
 import { defineStore } from "pinia";
 import { reactive } from "vue";
 import { toast } from "vue3-toastify";
+import { v4 as uuidv4 } from "uuid"
 
 export const useBlogStore = defineStore('blogStore', () => {
     const blogs = reactive(Array<IBlog>());
 
     const createBlog = (formData : IBlog) : void  => {
+        formData.id = uuidv4();
         formData.author = formData.author || "Anonym";
 
         if (!validateBlogFormData(formData)) {
@@ -14,7 +16,7 @@ export const useBlogStore = defineStore('blogStore', () => {
             return;
         }
 
-        blogs.push({...formData});
+        blogs.unshift({...formData});
         saveBlog();
 
         toast.success("Blog erstellt", { autoClose: 3000 });
@@ -41,6 +43,8 @@ export const useBlogStore = defineStore('blogStore', () => {
 
     return {
         createBlog,
-        loadAllBlogs
+        loadAllBlogs,
+
+        blogs
     };
 });
