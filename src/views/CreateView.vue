@@ -6,6 +6,7 @@ import { ref } from "vue";
 const blogStore = useBlogStore();
 
 const formData = ref<IBlog>({
+    id : '',
     titel: '',
     content: '',
     author: ''

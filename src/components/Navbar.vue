@@ -1,5 +1,10 @@
 <script setup lang='ts'>
 import { RouterLink } from "vue-router"
+import { useUserStore } from "@/stores/userStore";
+
+// Stores
+const userStore = useUserStore();
+
 </script>
 
 <template>
@@ -18,6 +23,12 @@ import { RouterLink } from "vue-router"
                     </li>
                     <li class="nav-item">
                         <RouterLink class="nav-link" :to="{ name: 'blog-create' }">Neuer Blog</RouterLink>
+                    </li>
+                    <li class="nav-item" v-if="!userStore.isAdmin">
+                        <RouterLink class="nav-link" :to="{ name: 'admin-login' }">Log In</RouterLink>
+                    </li>
+                    <li class="nav-item" v-if="userStore.isAdmin">
+                        <span class="nav-link">Logged In (Admin)</span>
                     </li>
                 </ul>
             </div>
